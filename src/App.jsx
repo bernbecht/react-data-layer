@@ -1,7 +1,17 @@
-import { usePosts } from "./hooks/usePosts";
+import React from "react";
+import { usePaginatedPosts } from "./hooks/usePaginatedPosts";
 
 export default function App() {
-  const { data: posts, isLoading, isError, error, refetch } = usePosts();
+  const { 
+    data: posts, 
+    isLoading, 
+    isError, 
+    error, 
+    refetch,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage
+   } = usePaginatedPosts();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -16,13 +26,27 @@ export default function App() {
       <h1>Posts</h1>
       <button onClick={() => refetch()}>Refetch Posts</button>
       <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <h2>{post.title}</h2>
-            <p>{post.body}</p>
-          </li>
+        {posts.pages.map((page, pageIndex) => (
+          <React.Fragment key={pageIndex}>
+            {page.map(post => (
+              <li key={post.id}>
+                <h2>{post.title}</h2>
+                <p>{post.body}</p>
+              </li>
+            ))}
+          </React.Fragment>
         ))}
       </ul>
+            <button
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage}
+      >
+        {isFetchingNextPage
+          ? 'Loading more...'
+          : hasNextPage
+          ? 'Load more'
+          : 'No more posts'}
+      </button>
     </div>
   );
 }
