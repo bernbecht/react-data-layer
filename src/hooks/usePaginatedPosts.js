@@ -11,5 +11,8 @@ export function usePaginatedPosts() {
       }
       return allPages.length + 1; // Next page number
     },
+    staleTime: 1/4 * 60 * 1000, // 15 seconds
+    cacheTime: 1/2 * 60 * 1000, // 30 seconds
+
   });
 }

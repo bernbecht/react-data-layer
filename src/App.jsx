@@ -1,4 +1,5 @@
 import React from "react";
+import { useCacheWatcher } from "./hooks/useCacheWatcher";
 import { usePaginatedPosts } from "./hooks/usePaginatedPosts";
 
 export default function App() {
@@ -12,6 +13,8 @@ export default function App() {
     isFetchingNextPage,
     fetchNextPage
    } = usePaginatedPosts();
+
+   useCacheWatcher();
 
   if (isLoading) {
     return <div>Loading...</div>;
