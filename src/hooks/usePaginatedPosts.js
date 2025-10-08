@@ -3,7 +3,7 @@ import { fetchPosts } from "../api/posts.js";
 
 export function usePaginatedPosts() {
   return useInfiniteQuery({
-    queryKey: ["paginatedPosts"],
+    queryKey: ["posts"],
     queryFn: ({ pageParam = 1 }) => fetchPosts(pageParam, 10),
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.length === 0) {
